@@ -1,0 +1,11 @@
+pyspark==3.0.*
+pytest
+requests
+setuptools
+wheel
+egg
+pandas
+JayDeBeApi
+azure.identity
+azure-keyvault-secrets
+importlib_resources
