@@ -17,12 +17,17 @@ setup(
       author="dgoyal607", 
       author_email="dgoyal607@yahoo.in", 
       description="Test PoC", 
-      url="https://github.com/dgoyal607/finalyearproject",
+      url="https://github.com/dgoyal607/demo_wheel/wheel",
       packages=find_packages("demo"),
       install_requires=requirements, 
+      entry_points ={
+          'console_scripts' : [
+              'hello-world-cli = demo.main:main'
+          ]
+      },
       classifiers=[
         "Programming Language :: Python :: 3", 
         "License :: OSI Approved :: MIT License", 
-        "Operating System :: OS Independent",
-    ], python_requires=">=3.6"
+        "Operating System :: OS Independent"], 
+      python_requires=">=3.6"
 )
