@@ -15,8 +15,11 @@ steps:
 
 - task: PythonScript@0
   inputs:
-    scriptSource: 'filePath'
-    scriptPath: '$(Build.Repository.LocalPath)/demo_wheel/wheel/setup.py'
+    scriptSource: 'inline'
+    script: |
+      cd $(Build.Repository.LocalPath)/demo_wheel/wheel/
+      python3 setup.py
+      ls dist/
     arguments: 'bdist_wheel'
     workingDirectory: '$(Build.Repository.LocalPath)/demo_wheel/wheel/'
 
