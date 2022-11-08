@@ -14,46 +14,38 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-      cd $(Build.Repository.LocalPath)/
-      ls
+      pip install wheel egg setuptools
+      cd $(Build.Repository.LocalPath)/wheel/
+      python3 setup.py bdist_wheel
+      ls dist/
+
+- script: |
+      cd $(Build.BinariesDirectory)/
+      rm -r *
+      mkdir -p $(Build.BinariesDirectory)/python/scripts
+      cp $(Build.Repository.LocalPath)/wheel/dist/*.whl* $(Build.BinariesDirectory)/python/scripts
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'wheel_artifact'
+    publishLocation: 'Container'
 
 
-# - task: PythonScript@0
-#   inputs:
-#     scriptSource: 'inline'
-#     script: |
-#       cd $(Build.Repository.LocalPath)/demo_wheel/wheel/
-#       python3 setup.py
-#       ls dist/
-#     arguments: 'bdist_wheel'
-#     workingDirectory: '$(Build.Repository.LocalPath)/demo_wheel/wheel/'
-
-# - script: |
-#       cd $(Build.BinariesDirectory)/
-#       rm -r *
-#       mkdir -p $(Build.BinariesDirectory)/python/scripts
-#       cp $(Build.Repository.LocalPath)/demo_wheel/wheel/dist/*.whl* $(Build.BinariesDirectory)/python/scripts
-
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#     ArtifactName: 'wheel_artifact'
-#     publishLocation: 'Container'
-
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: '$(Build.BinariesDirectory)'
-#     includeRootFolder: false
-#     archiveType: 'zip'
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-#     replaceExistingArchive: true
-
-# - task: UniversalPackages@0
-#   inputs:
-#     command: 'publish'
-#     publishDirectory: '$(Build.ArtifactStagingDirectory)'
-#     feedsToUsePublish: 'internal'
-#     vstsFeedPublish: '58e1c4d4-e7b8-4c95-a743-331c7605507b'
-#     vstsFeedPackagePublish: 'wheel_atifact_1'
-#     versionOption: 'patch'
-#     packagePublishDescription: 'artifact publish to staging area'
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '58e1c4d4-e7b8-4c95-a743-331c7605507b'
+    vstsFeedPackagePublish: 'wheel_atifact_1'
+    versionOption: 'patch'
+    packagePublishDescription: 'artifact publish to staging area'
