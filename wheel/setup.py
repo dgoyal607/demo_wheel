@@ -4,27 +4,13 @@
 
 from setuptools import setup, find_packages
 
-version = open("version.txt").readline().strip()
-
-requirements = open("requirements.txt").read().splitlines()
-
-# if __name__ == '__main__':
-#     setup()
-
 setup( 
-      name="Test", 
-      version=version,
+      name="demo", 
+      version="0.0.1",
       author="dgoyal607", 
       author_email="dgoyal607@yahoo.in", 
       description="Test PoC", 
-      url="https://github.com/dgoyal607/demo_wheel/wheel",
-      packages=find_packages("demo"),
-      install_requires=requirements, 
-      entry_points ={
-          'console_scripts' : [
-              'hello-world-cli = demo.main:main'
-          ]
-      },
+      packages=find_packages(),
       classifiers=[
         "Programming Language :: Python :: 3", 
         "License :: OSI Approved :: MIT License", 
