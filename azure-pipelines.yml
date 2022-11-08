@@ -13,16 +13,32 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+- task: PythonScript@0
+  inputs:
+    scriptSource: 'filePath'
+    scriptPath: '$(Build.Repository.LocalPath)/demo_wheel/wheel/setup.py'
+    arguments: 'bdist_wheel'
+    workingDirectory: '$(Build.Repository.LocalPath)/demo_wheel/wheel/'
+
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+      cd $(Build.BinariesDirectory)/
+      rm -r *
+      mkdir -p $(Build.BinariesDirectory)/python/scripts
+      cp $(Build.Repository.LocalPath)/demo_wheel/wheel/dist/*.whl* $(Build.BinariesDirectory)/python/scripts
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'wheel_artifact'
     publishLocation: 'Container'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 
 - task: UniversalPackages@0
   inputs:
