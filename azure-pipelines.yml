@@ -17,3 +17,19 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'wheel_artifact'
+    publishLocation: 'Container'
+
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '58e1c4d4-e7b8-4c95-a743-331c7605507b'
+    vstsFeedPackagePublish: 'wheel_atifact_1'
+    versionOption: 'patch'
+    packagePublishDescription: 'artifact publish to staging area'
