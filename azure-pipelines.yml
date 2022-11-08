@@ -39,12 +39,12 @@ steps:
     ArtifactName: 'wheel_artifact'
     publishLocation: 'Container'
 
-- task: UniversalPackages@0
-  inputs:
-    command: 'publish'
-    publishDirectory: '$(Build.ArtifactStagingDirectory)'
-    feedsToUsePublish: 'internal'
-    vstsFeedPublish: '58e1c4d4-e7b8-4c95-a743-331c7605507b'
-    vstsFeedPackagePublish: 'wheel_atifact'
-    versionOption: 'patch'
-    packagePublishDescription: 'artifact publish to staging area'
+# - task: UniversalPackages@0
+#   inputs:
+#     command: 'publish'
+#     publishDirectory: '$(Build.ArtifactStagingDirectory)'
+#     feedsToUsePublish: 'internal'
+#     vstsFeedPublish: '58e1c4d4-e7b8-4c95-a743-331c7605507b'
+#     vstsFeedPackagePublish: 'wheel_atifact'
+#     versionOption: 'patch'
+#     packagePublishDescription: 'artifact publish to staging area'
